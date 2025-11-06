@@ -2,3 +2,13 @@ venv/
 *.pyc
 .env
 __pycache__/
+
+habit_tracker.db
+
+# Frontend
+frontend/habit-tracker-ui/node_modules/
+frontend/habit-tracker-ui/.next/
+frontend/habit-tracker-ui/build/
+
+# macOS
+.DS_Store
