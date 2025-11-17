@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from abc import ABCMeta, abstractmethod
 from datetime import date, timedelta
 from django.db.models.base import ModelBase
+from django.utils import timezone
 
 # Custom metaclass to combine ModelBase and ABCMeta
 class CombinedMeta(ModelBase, ABCMeta):
@@ -53,26 +54,22 @@ class Habit(AbstractHabit):
 
     def is_completed_today(self):
         """Checks if the habit has been completed today."""
-        return self.habitlog_set.filter(completed_at__date=date.today()).exists()
+        return self.habitlog_set.filter(completed_at__date=timezone.now().date()).exists()
 
     def get_current_streak(self):
         """Calculates the current streak of consecutive days the habit was completed."""
-        today = date.today()
-        
+        if not self.is_completed_today():
+            return 0
+
         streak = 0
-        current_date = today
-        # We check from today backwards
+        current_date = timezone.now().date()
         while self.habitlog_set.filter(completed_at__date=current_date).exists():
             streak += 1
             current_date -= timedelta(days=1)
         
-        # If no log today, the streak is 0.
-        if not self.is_completed_today():
-            return 0
-            
         return streak
 
 class HabitLog(models.Model):
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE)
     notes = models.TextField(blank=True, null=True)
-    completed_at = models.DateTimeField(auto_now_add=True)
+    completed_at = models.DateTimeField(default=timezone.now)
