@@ -24,24 +24,23 @@ class AbstractHabit(models.Model, metaclass=CombinedMeta):
     class Meta:
         abstract = True
 
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
 class Habit(AbstractHabit):
     DURATION_CHOICES = [
         ('daily', 'Daily'),
         ('weekly', 'Weekly'),
         ('monthly', 'Monthly'),
     ]
-    TAG_CHOICES = [
-        ('health', 'Health'),
-        ('learning', 'Learning'),
-        ('work', 'Work'),
-        ('personal', 'Personal'),
-        ('other', 'Other'),
-    ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     duration = models.CharField(max_length=10, choices=DURATION_CHOICES, default='daily')
-    tag = models.CharField(max_length=10, choices=TAG_CHOICES, default='other')
+    tags = models.ManyToManyField(Tag, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -67,13 +66,8 @@ class Habit(AbstractHabit):
             streak += 1
             current_date -= timedelta(days=1)
         
-        # If no log today, but there was one yesterday, the streak is broken.
-        # But if there are no logs at all, the streak is 0.
-        if not self.is_completed_today() and streak > 0:
-            # This case indicates that there's a gap. For instance, a log yesterday but not today.
-            # The loop would have already run for yesterday.
-            # To correctly calculate the "past" streak that just ended, we need to adjust.
-            # However, for "current" streak, it should be 0 if not done today.
+        # If no log today, the streak is 0.
+        if not self.is_completed_today():
             return 0
             
         return streak

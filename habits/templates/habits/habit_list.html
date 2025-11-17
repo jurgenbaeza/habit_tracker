@@ -1,23 +1,43 @@
 {% extends 'habits/base.html' %}
 
 {% block content %}
-<h1>My Habits</h1>
-<a href="{% url 'habits:habit-create' %}">Add a new habit</a>
-<ul>
-    {% for habit in habits %}
-    <li>
-        <strong>{{ habit.name }}</strong> ({{ habit.get_duration_display }}) - <em>Tag: {{ habit.get_tag_display }}</em>
-        <p>{{ habit.description|default:"No description" }}</p>
-        <p>Current Streak: {{ habit.get_current_streak }} day(s)</p>
-        {% if not habit.is_completed_today %}
-        <form action="{% url 'habits:complete-habit' habit.pk %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Complete for today</button>
-        </form>
-        {% else %}
-        <p>Completed today!</p>
-        {% endif %}
-    </li>
-    {% endfor %}
-</ul>
+    <h1>My Habits</h1>
+    <div class="text-center mt-1">
+        <a href="{% url 'habits:habit-create' %}" class="nav-button">Add New Habit</a>
+    </div>
+    <ul class="habit-grid mt-1">
+        {% for habit in habits %}
+            <li class="habit-card">
+                <div class="habit-card-header">
+                    <div class="habit-checkbox {% if habit.is_completed_today %}completed{% endif %}"></div>
+                    <div class="habit-info">
+                        <strong>{{ habit.name }}</strong>
+                        <p>{{ habit.get_duration_display }}</p>
+                    </div>
+                </div>
+                <div class="habit-card-body">
+                    <div class="tags-container">
+                        {% for tag in habit.tags.all %}
+                            <span class="tag">{{ tag.name }}</span>
+                        {% endfor %}
+                    </div>
+                    <p>Current Streak: {{ habit.get_current_streak }} day(s)</p>
+                    <p>{{ habit.description|default:"No description available." }}</p>
+                </div>
+                <div class="habit-card-footer">
+                    {% if not habit.is_completed_today %}
+                        <form action="{% url 'habits:complete-habit' habit.pk %}" method="post" class="log-form">
+                            {% csrf_token %}
+                            <button type="submit" class="action-button log-button">Log It</button>
+                        </form>
+                    {% else %}
+                        <span class="completed-text">Logged!</span>
+                    {% endif %}
+                    <a href="{% url 'habits:habit-delete' habit.pk %}" class="action-button delete-button">Delete</a>
+                </div>
+            </li>
+        {% empty %}
+            <p class="text-center">You haven't created any habits yet. Get started today!</p>
+        {% endfor %}
+    </ul>
 {% endblock %}

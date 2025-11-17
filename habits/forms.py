@@ -4,4 +4,7 @@ from .models import Habit
 class HabitForm(forms.ModelForm):
     class Meta:
         model = Habit
-        fields = ['name', 'description', 'duration', 'tag']
+        fields = ['name', 'description', 'duration', 'tags']
+        widgets = {
+            'tags': forms.CheckboxSelectMultiple,
+        }

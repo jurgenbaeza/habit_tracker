@@ -1,0 +1,47 @@
+{% extends 'habits/base.html' %}
+
+{% block content %}
+    <h1>{{ profile_user.username }}'s Profile</h1>
+
+    {% if user.is_authenticated and user != profile_user %}
+        <div class="text-center mt-1">
+            <form action="{% url 'social:follow_toggle' profile_user.username %}" method="post">
+                {% csrf_token %}
+                {% if is_following %}
+                    <button type="submit" class="action-button delete-button">Unfollow</button>
+                {% else %}
+                    <button type="submit" class="action-button">Follow</button>
+                {% endif %}
+            </form>
+        </div>
+    {% endif %}
+
+    <div class="text-center mt-1">
+        <a href="{% url 'social:followers_list' profile_user.username %}" class="profile-link">{{ profile_user.followers.count }} Followers</a> |
+        <a href="{% url 'social:following_list' profile_user.username %}" class="profile-link">{{ profile_user.following.count }} Following</a>
+    </div>
+
+    <h2 class="mt-1">Habits</h2>
+    <ul class="habit-grid mt-1">
+        {% for habit in habits %}
+            <li class="habit-card">
+                <div class="habit-card-header">
+                    <div class="habit-info">
+                        <strong>{{ habit.name }}</strong>
+                        <p>{{ habit.get_duration_display }}</p>
+                    </div>
+                </div>
+                <div class="habit-card-body">
+                    <div class="tags-container">
+                        {% for tag in habit.tags.all %}
+                            <span class="tag">{{ tag.name }}</span>
+                        {% endfor %}
+                    </div>
+                    <p>{{ habit.description|default:"No description available." }}</p>
+                </div>
+            </li>
+        {% empty %}
+            <p class="text-center">{{ profile_user.username }} has no public habits.</p>
+        {% endfor %}
+    </ul>
+{% endblock %}

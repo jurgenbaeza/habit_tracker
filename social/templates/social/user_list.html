@@ -1,0 +1,17 @@
+{% extends 'habits/base.html' %}
+
+{% block content %}
+    <h1>Find Users</h1>
+
+    <ul class="generic-list">
+        {% for user_profile in users %}
+            <li class="generic-list-item">
+                <a href="{% url 'social:user_profile' user_profile.username %}">
+                    {{ user_profile.username }}
+                </a>
+            </li>
+        {% empty %}
+            <p class="text-center">No other users found.</p>
+        {% endfor %}
+    </ul>
+{% endblock %}

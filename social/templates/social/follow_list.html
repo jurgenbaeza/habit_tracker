@@ -1,0 +1,27 @@
+{% extends 'habits/base.html' %}
+
+{% block content %}
+    <h1>{{ profile_user.username }}'s {{ list_type|title }}</h1>
+
+    {% if follow_list %}
+        <ul class="generic-list">
+            {% for follow in follow_list %}
+                <li class="generic-list-item">
+                    {% if list_type == 'followers' %}
+                        <a href="{% url 'social:user_profile' follow.follower.username %}">{{ follow.follower.username }}</a>
+                    {% else %}
+                        <a href="{% url 'social:user_profile' follow.following.username %}">{{ follow.following.username }}</a>
+                    {% endif %}
+                </li>
+            {% empty %}
+                <p class="text-center">No users to display.</p>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-center">No users to display.</p>
+    {% endif %}
+
+    <div class="text-center mt-1">
+        <a href="{% url 'social:user_profile' profile_user.username %}" class="action-button">Back to Profile</a>
+    </div>
+{% endblock %}

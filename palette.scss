@@ -1,0 +1,47 @@
+/* Olive Garden Feast - https://coolors.co/606c38-283618-fefae0-dda15e-bc6c25 */
+
+/* CSS HEX */
+--olive-leaf: #606c38ff;
+--black-forest: #283618ff;
+--cornsilk: #fefae0ff;
+--sunlit-clay: #dda15eff;
+--copperwood: #bc6c25ff;
+
+/* CSS HSL */
+--olive-leaf: hsla(74, 32%, 32%, 1);
+--black-forest: hsla(88, 38%, 15%, 1);
+--cornsilk: hsla(52, 94%, 94%, 1);
+--sunlit-clay: hsla(32, 65%, 62%, 1);
+--copperwood: hsla(28, 67%, 44%, 1);
+
+/* SCSS HEX */
+$olive-leaf: #606c38ff;
+$black-forest: #283618ff;
+$cornsilk: #fefae0ff;
+$sunlit-clay: #dda15eff;
+$copperwood: #bc6c25ff;
+
+/* SCSS HSL */
+$olive-leaf: hsla(74, 32%, 32%, 1);
+$black-forest: hsla(88, 38%, 15%, 1);
+$cornsilk: hsla(52, 94%, 94%, 1);
+$sunlit-clay: hsla(32, 65%, 62%, 1);
+$copperwood: hsla(28, 67%, 44%, 1);
+
+/* SCSS RGB */
+$olive-leaf: rgba(96, 108, 56, 1);
+$black-forest: rgba(40, 54, 24, 1);
+$cornsilk: rgba(254, 250, 224, 1);
+$sunlit-clay: rgba(221, 161, 94, 1);
+$copperwood: rgba(188, 108, 37, 1);
+
+/* SCSS Gradient */
+$gradient-top: linear-gradient(0deg, #606c38ff, #283618ff, #fefae0ff, #dda15eff, #bc6c25ff);
+$gradient-right: linear-gradient(90deg, #606c38ff, #283618ff, #fefae0ff, #dda15eff, #bc6c25ff);
+$gradient-bottom: linear-gradient(180deg, #606c38ff, #283618ff, #fefae0ff, #dda15eff, #bc6c25ff);
+$gradient-left: linear-gradient(270deg, #606c38ff, #283618ff, #fefae0ff, #dda15eff, #bc6c25ff);
+$gradient-top-right: linear-gradient(45deg, #606c38ff, #283618ff, #fefae0ff, #dda15eff, #bc6c25ff);
+$gradient-bottom-right: linear-gradient(135deg, #606c38ff, #283618ff, #fefae0ff, #dda15eff, #bc6c25ff);
+$gradient-top-left: linear-gradient(225deg, #606c38ff, #283618ff, #fefae0ff, #dda15eff, #bc6c25ff);
+$gradient-bottom-left: linear-gradient(315deg, #606c38ff, #283618ff, #fefae0ff, #dda15eff, #bc6c25ff);
+$gradient-radial: radial-gradient(#606c38ff, #283618ff, #fefae0ff, #dda15eff, #bc6c25ff);

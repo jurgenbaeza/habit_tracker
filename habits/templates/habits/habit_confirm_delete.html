@@ -1,0 +1,14 @@
+{% extends 'habits/base.html' %}
+
+{% block content %}
+    <h2>Delete Habit</h2>
+    <form method="post" class="standalone">
+        {% csrf_token %}
+        <p class="text-center">Are you sure you want to delete the habit "{{ object.name }}"?</p>
+        <p class="text-center">This action cannot be undone.</p>
+        <div class="delete-form-actions">
+            <button type="submit" class="action-button delete-button">Confirm Delete</button>
+            <a href="{% url 'habits:habit-list' %}" class="action-button cancel-button">Cancel</a>
+        </div>
+    </form>
+{% endblock %}

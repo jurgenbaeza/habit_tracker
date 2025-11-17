@@ -1,0 +1,405 @@
+/*
+Final Polish based on user feedback and modern UI principles.
+Focus on consistency, clarity, and a professional aesthetic.
+*/
+
+/* Color Palette */
+:root {
+    --olive-leaf: #606c38;
+    --black-forest: #283618;
+    --cornsilk: #fefae0;
+    --sunlit-clay: #dda15e;
+    --copperwood: #bc6c25;
+    --danger-red: #c62828;
+    --danger-red-light: #ffcdd2;
+}
+
+/* General Body Styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    background-color: var(--cornsilk);
+    color: var(--black-forest);
+}
+
+/* Navigation Bar */
+nav {
+    background-color: var(--black-forest);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+nav .nav-left a {
+    color: var(--cornsilk);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+nav .nav-left a:hover {
+    color: var(--sunlit-clay);
+}
+
+nav .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-button {
+    background: var(--copperwood);
+    color: var(--cornsilk);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+}
+.nav-button:hover {
+    background: var(--sunlit-clay);
+}
+nav form { margin: 0; }
+
+/* Main Content Area */
+main {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+}
+
+h1, h2 {
+    color: var(--black-forest);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+/* Habit List - Grid View */
+ul.habit-grid {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2rem;
+}
+
+li.habit-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+li.habit-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.habit-card-header {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.habit-info { flex-grow: 1; }
+.habit-info strong {
+    font-size: 1.3rem;
+    color: var(--black-forest);
+}
+.habit-info p {
+    margin: 0.3rem 0 0;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.habit-card-body {
+    flex-grow: 1;
+    margin-bottom: 1.5rem;
+}
+.habit-card-body p {
+    color: #333;
+}
+
+.tags-container {
+    margin: 1rem 0;
+}
+.tag {
+    display: inline-block;
+    background-color: var(--olive-leaf);
+    color: var(--cornsilk);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.habit-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto; /* Pushes footer to the bottom */
+}
+
+/* Decorative Checkbox */
+.habit-checkbox {
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--olive-leaf);
+    border-radius: 6px;
+    margin-right: 1rem;
+    flex-shrink: 0;
+    transition: background-color 0.2s ease;
+}
+.habit-checkbox.completed {
+    background-color: var(--olive-leaf);
+}
+.habit-checkbox.completed::after {
+    content: '✔';
+    color: var(--cornsilk);
+    font-size: 20px;
+    display: block;
+    text-align: center;
+    line-height: 26px;
+}
+
+/* Action Buttons */
+.action-button {
+    background-color: var(--copperwood);
+    color: white;
+    padding: 0.7rem 1.3rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+.action-button:hover { background-color: var(--sunlit-clay); }
+
+.log-button {
+    background-color: var(--olive-leaf);
+    color: white;
+}
+.log-button:hover {
+    background-color: #7a864a; /* A darker shade of olive-leaf */
+}
+
+.delete-button {
+    background-color: var(--danger-red);
+}
+.delete-button:hover {
+    background-color: #e57373;
+}
+
+.cancel-button {
+    background-color: #999;
+}
+.cancel-button:hover {
+    background-color: #777;
+}
+
+.log-form { all: unset; } /* Removes white box around Log It button */
+
+.completed-text {
+    color: var(--olive-leaf);
+    font-weight: 600;
+}
+
+/* Forms */
+form.standalone {
+    background-color: #fff;
+    padding: 2.5rem;
+    border-radius: 10px;
+    margin: 2rem auto;
+    max-width: 500px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.delete-form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+form.standalone label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+form.standalone input,
+form.standalone textarea,
+form.standalone select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+form.standalone .text-center button {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+}
+
+/* CheckboxSelectMultiple Widget Styling */
+#id_tags {
+    list-style: none;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+}
+#id_tags li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+#id_tags li:last-child {
+    margin-bottom: 0;
+}
+#id_tags input[type="checkbox"] {
+    width: auto;
+    margin-right: 0.75rem;
+}
+#id_tags label {
+    font-weight: normal;
+    margin-bottom: 0;
+}
+
+/* Form Errors */
+.errorlist {
+    list-style-type: none;
+    padding: 1rem;
+    margin: 1rem 0;
+    border: 1px solid var(--danger-red);
+    background-color: var(--danger-red-light);
+    color: var(--danger-red);
+    border-radius: 6px;
+}
+.errorlist li { all: unset; }
+
+/* Utility */
+.text-center { text-align: center; }
+.mt-1 { margin-top: 1rem; }
+
+/* Social Features Styling */
+.user-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.user-list-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+.user-list-item a {
+    text-decoration: none;
+    color: var(--black-forest);
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.user-list-item a:hover {
+    color: var(--copperwood);
+}
+
+.profile-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.profile-actions form {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    box-shadow: none;
+}
+
+.profile-actions button {
+    background-color: var(--copperwood);
+    color: white;
+    padding: 0.7rem 1.3rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease;
+}
+
+.profile-actions button.unfollow {
+    background-color: var(--danger-red);
+}
+
+.profile-actions button:hover {
+    background-color: var(--sunlit-clay);
+}
+.profile-actions button.unfollow:hover {
+    background-color: #e57373;
+}
+
+.profile-link {
+    color: var(--copperwood);
+    text-decoration: none;
+    font-weight: 500;
+    margin: 0 0.5rem;
+    padding: 0.5rem 0.8rem;
+    border: 1px solid var(--copperwood);
+    border-radius: 6px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.profile-link:hover {
+    background-color: var(--copperwood);
+    color: var(--cornsilk);
+}
+
+/* General list styling for social pages */
+ul.generic-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 2rem;
+}
+
+li.generic-list-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+li.generic-list-item a {
+    color: var(--black-forest);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+li.generic-list-item a:hover {
+    color: var(--copperwood);
+}

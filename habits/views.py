@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Habit, HabitLog
 from .serializers import HabitLogSerializer
 from django.core.exceptions import PermissionDenied
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .forms import HabitForm
@@ -31,7 +31,7 @@ class HabitListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         repo = HabitRepository()
-        return repo.get_all_habits_for_user(self.request.user)
+        return repo.get_all_habits_for_user(self.request.user).order_by('-created_at')
 
 
 class HabitCreateView(LoginRequiredMixin, CreateView):
@@ -43,6 +43,14 @@ class HabitCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+class HabitDeleteView(LoginRequiredMixin, DeleteView):
+    model = Habit
+    template_name = 'habits/habit_confirm_delete.html'
+    success_url = reverse_lazy('habits:habit-list')
+
+    def get_queryset(self):
+        return Habit.objects.filter(user=self.request.user)
 
 
 @login_required

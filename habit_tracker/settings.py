@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'users',
-    'habits', # Added this line
+    'habits',
+    'social',
 ]
 
 MIDDLEWARE = [
@@ -132,3 +133,4 @@ REST_FRAMEWORK = {
 }
 
 LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = '/habits/'
