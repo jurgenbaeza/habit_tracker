@@ -361,6 +361,73 @@ def streak_summary():
 
     return jsonify({"current_streak_days": current, "longest_streak_days": longest})
 
+@app.route("/api/friends", methods=["POST"])
+def add_friend():
+    data = request.get_json() or {}
+    user_id = data.get("user_id")
+    friend_email = data.get("friend_email")
+
+    if not user_id or not friend_email:
+        return jsonify({"error": "user_id and friend_email are required"}), 400
+
+    # ensure user exists
+    if not _user_exists(int(user_id)):
+        return jsonify({"error": "user not found"}), 404
+
+    with sqlite3.connect(DB) as conn:
+        cur = conn.cursor()
+
+        # Look up friend by email
+        cur.execute("SELECT user_id FROM users WHERE email = ?", (friend_email,))
+        row = cur.fetchone()
+
+        if not row:
+            return jsonify({"error": "No user found with that email"}), 404
+
+        friend_id = row[0]
+
+        # Cannot add yourself
+        if int(user_id) == int(friend_id):
+            return jsonify({"error": "You cannot add yourself as a friend"}), 400
+
+        try:
+            cur.execute("""
+                INSERT INTO friends (user_id, friend_id)
+                VALUES (?, ?)
+            """, (user_id, friend_id))
+            conn.commit()
+        except sqlite3.IntegrityError:
+            return jsonify({"error": "You already added this friend"}), 400
+
+    return jsonify({"message": "Friend added successfully"}), 201
+
+
+@app.route("/api/friends", methods=["GET"])
+def list_friends():
+    user_id = request.args.get("user_id", type=int)
+    if not user_id:
+        return jsonify({"error": "user_id is required"}), 400
+
+    if not _user_exists(user_id):
+        return jsonify({"error": "user not found"}), 404
+
+    with sqlite3.connect(DB) as conn:
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT u.user_id, u.username, u.email
+            FROM friends f
+            JOIN users u ON f.friend_id = u.user_id
+            WHERE f.user_id = ?
+            ORDER BY u.username
+        """, (user_id,))
+
+        friends = [
+            {"user_id": row[0], "username": row[1], "email": row[2]}
+            for row in cur.fetchall()
+        ]
+
+    return jsonify({"friends": friends})
+
 if __name__ == "__main__":
     # Use a fixed port so React (3000) can call us at 5000
     app.run(host="127.0.0.1", port=5000, debug=True)
